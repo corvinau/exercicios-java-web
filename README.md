@@ -1,1 +1,1 @@
-# exerciciosWeb2
+# exercicioWeb2

@@ -5,34 +5,54 @@
  */
 package servlets;
 
+import beans.Cliente;
+import beans.LoginBean;
+import dao.ClienteDAO;
 import java.io.IOException;
-import java.io.PrintWriter;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
- * @author Tatiane
+ * @author ArtVin
  */
-@WebServlet(name = "ErroServlet", urlPatterns = {"/ErroServlet"})
-public class ErroServlet extends HttpServlet {
+@WebServlet(name = "VisualizarClienteServlet", urlPatterns = {"/VisualizarClienteServlet"})
+public class VisualizarClienteServlet extends HttpServlet {
 
+    /**
+     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
+     * methods.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String mensagem = (String) request.getAttribute("msg");
-        String msglink = (String) request.getAttribute("page");
-        response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            out.println("<!DOCTYPE html>");
-            out.println("<html><head>");
-            out.println("<title>Servlet ErroServlet</title>");
-            out.println("</head><body>");
-            out.println(mensagem + "<br>");
-            out.println(msglink);
-            out.println("</body></html>");
+        HttpSession session = request.getSession(false);
+        LoginBean login = (LoginBean) session.getAttribute("loginBean");
+        
+        if(login == null || login.getNome() == null){
+            RequestDispatcher rd = request.
+            getRequestDispatcher("index.jsp");
+            session.invalidate();
+            request.setAttribute("msg", "Usuário deve se autenticar para acessar o sistema.");
+            rd.forward(request, response);
+        }
+        else{
+            ClienteDAO clientes = new ClienteDAO();
+            Cliente c = clientes.buscaCliente(Integer.parseInt(request.getParameter("id")));
+            
+            RequestDispatcher rd = request.
+            getRequestDispatcher("clientesVisualizar.jsp");
+            request.setAttribute("cliente", c);
+            rd.forward(request, response);
         }
     }
 

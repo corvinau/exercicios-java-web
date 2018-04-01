@@ -5,9 +5,8 @@
  */
 package servlets;
 
-import beans.LoginBean;
 import java.io.IOException;
-import java.io.PrintWriter;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -36,26 +35,11 @@ public class LogoutServlet extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         
         HttpSession session = request.getSession(false);
+        session.invalidate();
         
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            
-                LoginBean a = (LoginBean) session.getAttribute("loginBean");
-                
-                out.println("<!DOCTYPE html>");
-                out.println("<html>");
-                out.println("<head>");
-                out.println("<title>Servlet LogoutServlet</title>");            
-                out.println("</head>");
-                out.println("<body>");
-                if (a != null && session != null) {
-                    session.invalidate();
-                    out.println("Você saiu do sistema <br>");
-                    out.println("<a href=\"index.html\">Fazer Login</a>");
-                }
-                out.println("</body>");
-                out.println("</html>");
-        }
+        request.setAttribute("msg", "Usuário desconectado com sucesso");
+        RequestDispatcher rd = request.getRequestDispatcher("/index.jsp");
+        rd.forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

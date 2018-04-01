@@ -13,41 +13,52 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  *
  * @author Tatiane
  */
 public class UsuarioDAO {
-    Connection con = null;
-    ResultSet rs = null;
 
-    public UsuarioDAO() throws ClassNotFoundException, SQLException{
-        Class.forName("com.mysql.jdbc.Driver");
-        con = DriverManager.getConnection("jdbc:mysql://localhost:3306/usuario", "root", "root");
+    private Connection con = null;
+    private ResultSet rs = null;
+
+    public UsuarioDAO(){
+        try {
+            con = ConnectionFactory.getConnection();
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(UsuarioDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(UsuarioDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
-    
-    public Usuario getUsuario(String login, String senha) throws SQLException {
-        
-        if(login != null && senha != null){
-            PreparedStatement st = con.prepareStatement(
-                "select id_usuario, login_usuario, nome_usuario, senha_usuario from tb_usuario where login_usuario = '"+login+"'"
-                        );
-            //            "select id_usuario, login_usuario, nome_usuario, senha_usuario from tb_usuario where login_usuario = '?'"
 
+    public Usuario getUsuario(String login, String senha) {
+        if (login != null && senha != null) {
+            try {
+                PreparedStatement st;
 
-            rs = st.executeQuery();
+                st = con.prepareStatement(
+                        "select id_usuario, login_usuario, nome_usuario, senha_usuario from tb_usuario where login_usuario = '" + login + "'"
+                );
+                rs = st.executeQuery();
 
-            Usuario u = null;
-            while (rs.next()) {
-                u = new Usuario();
-                u.setId_usuario(rs.getInt("id_usuario"));
-                u.setLogin_usuario(rs.getString("login_usuario"));
-                u.setNome_usuario(rs.getString("nome_usuario"));
-                u.setSenha_usuario(rs.getString("senha_usuario"));
-            }
-            if( u != null && senha.equals(u.getSenha_usuario()) ){
-                return u;
+                Usuario u = null;
+                while (rs.next()) {
+                    u = new Usuario();
+                    u.setId_usuario(rs.getInt("id_usuario"));
+                    u.setLogin_usuario(rs.getString("login_usuario"));
+                    u.setNome_usuario(rs.getString("nome_usuario"));
+                    u.setSenha_usuario(rs.getString("senha_usuario"));
+                }
+                if (u != null && senha.equals(u.getSenha_usuario())) {
+                    return u;
 
+                }
+            } catch (SQLException ex) {
+                Logger.getLogger(UsuarioDAO.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
         return null;

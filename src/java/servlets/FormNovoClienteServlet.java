@@ -6,8 +6,6 @@
 package servlets;
 
 import beans.LoginBean;
-import beans.Usuario;
-import dao.UsuarioDAO;
 import java.io.IOException;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -19,10 +17,10 @@ import javax.servlet.http.HttpSession;
 
 /**
  *
- * @author Tatiane
+ * @author ArtVin
  */
-@WebServlet(name = "LoginServlet", urlPatterns = {"/LoginServlet"})
-public class LoginServlet extends HttpServlet {
+@WebServlet(name = "FormNovoClienteServlet", urlPatterns = {"/FormNovoClienteServlet"})
+public class FormNovoClienteServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -35,31 +33,21 @@ public class LoginServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-
-        HttpSession session = request.getSession();
-
-        String login = (String) request.getParameter("login");
-        String senha = (String) request.getParameter("senha");
-
-        Usuario u = null;
-        UsuarioDAO dao = new UsuarioDAO();
-        u = dao.getUsuario(login, senha);
+        HttpSession session = request.getSession(false);
+        LoginBean login = (LoginBean) session.getAttribute("loginBean");
         
-
-        if (u != null) {
-            LoginBean loginBean = new LoginBean();
-            loginBean.setNome(u.getNome_usuario());
-            session.setAttribute("loginBean", loginBean);
-            RequestDispatcher rd = getServletContext().getRequestDispatcher("/portal.jsp");
-            rd.forward(request, response);
-        } 
-        else {
-            request.setAttribute("msg", "Usuário/senha invalidos");
-            RequestDispatcher rd = request.getRequestDispatcher("/index.jsp");
+        if(login == null || login.getNome() == null){
+            RequestDispatcher rd = request.
+            getRequestDispatcher("index.jsp");
+            session.invalidate();
+            request.setAttribute("msg", "Usuário deve se autenticar para acessar o sistema.");
             rd.forward(request, response);
         }
-
+        else{
+            RequestDispatcher rd = request.
+            getRequestDispatcher("clientesNovo.jsp");
+            rd.forward(request, response);
+        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

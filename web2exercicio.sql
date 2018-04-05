@@ -2,23 +2,23 @@ CREATE DATABASE WEB2;
 USE WEB2;
 
 CREATE TABLE tb_usuario(
-  id_usuario int(11) PRIMARY KEY AUTO_INCREMENT,
-  login_usuario varchar(20) DEFAULT NULL,
-  senha_usuario varchar(20) DEFAULT NULL,
-  nome_usuario varchar(50) DEFAULT NULL
+	id_usuario int(11) PRIMARY KEY AUTO_INCREMENT,
+	login_usuario varchar(20) DEFAULT NULL,
+	senha_usuario varchar(20) DEFAULT NULL,
+	nome_usuario varchar(50) DEFAULT NULL
 )ENGINE=InnoDB;
 
 CREATE TABLE tb_cliente(
-id_cliente INT(11) PRIMARY KEY AUTO_INCREMENT , 
-cpf_cliente VARCHAR(11), 
-nome_cliente VARCHAR(100), 
-email_cliente VARCHAR(100), 
-data_cliente DATE, 
-rua_cliente VARCHAR(100), 
-nr_cliente INT, 
-cep_cliente CHAR(8), 
-cidade_cliente VARCHAR(100), 
-uf_cliente CHAR(2)
+	id_cliente INT(11) PRIMARY KEY AUTO_INCREMENT , 
+	cpf_cliente VARCHAR(11), 
+	nome_cliente VARCHAR(100), 
+	email_cliente VARCHAR(100), 
+	data_cliente DATE, 
+	rua_cliente VARCHAR(100), 
+	nr_cliente INT, 
+	cep_cliente CHAR(8), 
+	cidade_cliente VARCHAR(100), 
+	uf_cliente CHAR(2)	
 );
 
 INSERT INTO tb_usuario(login_usuario,senha_usuario,nome_usuario) 

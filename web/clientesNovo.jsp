@@ -9,7 +9,9 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
+        <link rel="stylesheet" href="css/bootstrap.css"/>
+        <link rel="stylesheet" href="css/main.css"/>
+        <title>Novo Cadastro</title>
     </head>
     <body>
         <jsp:useBean id="loginBean" class="beans.LoginBean" scope="session">
@@ -20,18 +22,70 @@
                 rd.forward(request, response); 
             %>
         </jsp:useBean>
-        <form action="NovoClienteServlet" method="POST">
-            CPF: <input type="text" name="cpf" value=""/><br/>
-            Nome: <input type="text" name="nome" value=""/><br/>
-            Email: <input type="text" name="email" value=""/><br/>
-            Data: <input type="date" name="data" value=""/><br/>
-            Rua: <input type="text" name="rua" value=""/><br/>
-            Numero: <input type="text" name="numero" value=""/><br/>
-            CEP: <input type="text" name="cep" value=""/><br/>
-            Cidade: <input type="text" name="cidade" value=""/><br/>
-            UF: <input type="text" name="uf" value=""/><br/>
-            <input type="submit" value="Criar">
-            <a href="ClientesServlet"> Cancelar </a>
-        </form>
+        
+        <nav class="navbar navbar-expand-sm bg-primary navbar-dark">
+            <span class="navbar-brand">Cadastrar Cliente</span>
+        </nav>
+        
+        <div class="container" id="client-form">
+            <form action="NovoClienteServlet" method="POST">
+                <div class="form-group row">
+                    <label for="cpf" class="col-sm-2 col-form-label">CPF</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" name="cpf" value="" placeholder="CPF"/>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="nome" class="col-sm-2 col-form-label">Nome</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" name="nome" value="" placeholder="Nome"/>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="email" class="col-sm-2 col-form-label">E-mail</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" name="email" value="" placeholder="E-mail"/>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="data" class="col-sm-2 col-form-label">Data</label>
+                    <div class="col-sm-10">
+                        <input type="date" class="form-control" name="data" value=""/>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="rua" class="col-sm-2 col-form-label">Rua</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" name="rua" value="" placeholder="Rua"/>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="numero" class="col-sm-2 col-form-label">Número</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" name="numero" value="" placeholder="Nº"/>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="cep" class="col-sm-2 col-form-label">CEP</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" name="cep" value="" placeholder="CEP"/>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="cidade" class="col-sm-2 col-form-label">Cidade</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" name="cidade" value="" placeholder="Cidade"/>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="uf" class="col-sm-2 col-form-label">UF</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" name="uf" value="" placeholder="UF"/>
+                    </div>
+                </div>
+                <input class="btn btn-primary" id="new-client" type="submit" value="Criar">
+                <a class="btn btn-secondary" id="cancel" href="ClientesServlet">Cancelar</a>
+            </form>
+        </div>
     </body>
 </html>

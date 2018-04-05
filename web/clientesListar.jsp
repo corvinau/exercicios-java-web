@@ -62,7 +62,7 @@
                 </tbody>
             </table>
             <a class="btn btn-primary" id="new-client" href="FormNovoClienteServlet">Novo Cliente</a>
-            <a class="btn btn-secondary" id="cancel" href="#">Voltar</a>
+            <a class="btn btn-secondary" id="cancel" href="portal.jsp">Voltar</a>
         </div>
     </body>
 </html>

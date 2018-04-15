@@ -6,4 +6,4 @@ Pequeno projeto desenvolvido nas aulas de Desenvolvimento de Aplicações para W
 
 Mostrar a aplicação de padrões de projeto (MVC, DAO, Façade) para uma aplicação java web simples.
 
-**Devs:** Arthur Vianna Landeo (ArthurVianna) e Tatiane Portela Medeiros (corvinau)
+**Devs:** Arthur Vianna Landeo (ArthurVianna) e Tatiane Portela Medeiros (corvinau).

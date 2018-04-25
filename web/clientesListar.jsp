@@ -4,8 +4,10 @@
     Author     : ArtVin
 --%>
 
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@page import="com.ufpr.tads.web2.beans.Cliente"%>
 <%@page import="java.util.List"%>
+<%@page errorPage="erro.jsp"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -18,16 +20,13 @@
     </head>
     <body>
         <jsp:useBean id="loginBean" class="com.ufpr.tads.web2.beans.LoginBean" scope="session">
-            <%   
-                RequestDispatcher rd = request.
-                getRequestDispatcher("index.jsp");
-                request.setAttribute("msg", "Usuário deve se autenticar para acessar o sistema.");
-                rd.forward(request, response); 
-            %>
+            <jsp:forward page="index.jsp">
+                <jsp:param name="msg" value="Usuário deve se autenticar para acessar o sistema." />
+            </jsp:forward>
         </jsp:useBean>
 
         <nav class="navbar navbar-expand-sm bg-primary navbar-dark">
-            <span class="navbar-brand"><jsp:getProperty name="loginBean" property="nome"/></span>
+            <span class="navbar-brand">${loginBean.nome}</span>
         </nav>
         
         <div class="container" id="info-table">
@@ -41,27 +40,27 @@
                     </tr>
                 </thead>
                 <tbody>
-                <%
-                    List<Cliente> lista = (List<Cliente>) request.getAttribute("listaClientes");
-                    if(lista.size()!= 0){
-                        for(int i = 0; i < lista.size(); i++){
-                            Cliente aux = lista.get(i);
-                            out.print("<tr>");
-                            out.print("<td>"+ aux.getCpfCliente() +"</td>");
-                            out.print("<td>"+ aux.getNomeCliente()+"</td>");
-                            out.print("<td>"+ aux.getEmailCliente() +"</td>");
-                            out.print("<td>");
-                            out.print("<a href=\"VisualizarClienteServlet?id="+aux.getIdCliente()+"\"><i class=\"material-icons\">visibility</i> </a>");
-                            out.print("<a href=\"FormAlterarClienteServlet?id="+aux.getIdCliente()+"\"><i class=\"material-icons\">edit</i> </a>");
-                            out.print("<a href=\"RemoverClienteServlet?id="+aux.getIdCliente()+"\"><i class=\"material-icons\">delete</i> </a>");
-                            out.print("</td>");
-                            out.print("</tr>");
-                        }
-                    }
-                %>
+                    <c:forEach items="${lista}" var="cliente" >
+                        <tr>
+                            <td>${cliente.cpfCliente}</td>
+                            <td>${cliente.nomeCliente}</td>
+                            <td>${cliente.emailCliente}</td>
+                            <td>
+                                <a href="ClientesServlet?action=show&id=${cliente.idCliente}">
+                                    <i class="material-icons">visibility</i> 
+                                </a>
+                                <a href="ClientesServlet?action=formUpdate&id=${cliente.idCliente}">
+                                    <i class="material-icons">edit</i> 
+                                </a>
+                                <a href="ClientesServlet?action=remove&id=${cliente.idCliente}">
+                                    <i class="material-icons">delete</i> 
+                                </a>
+                            </td>
+                        </tr>
+                    </c:forEach>
                 </tbody>
             </table>
-            <a class="btn btn-primary" id="new-client" href="FormNovoClienteServlet">Novo Cliente</a>
+            <a class="btn btn-primary" id="new-client" href="ClientesServlet?action=formNew">Novo Cliente</a>
             <a class="btn btn-secondary" id="cancel" href="portal.jsp">Voltar</a>
         </div>
     </body>

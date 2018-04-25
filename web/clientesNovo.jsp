@@ -4,7 +4,9 @@
     Author     : ArtVin
 --%>
 
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@page import="com.ufpr.tads.web2.beans.Cliente"%>
+<%@page errorPage="erro.jsp"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -16,12 +18,9 @@
     </head>
     <body>
         <jsp:useBean id="loginBean" class="com.ufpr.tads.web2.beans.LoginBean" scope="session">
-            <%   
-                RequestDispatcher rd = request.
-                getRequestDispatcher("index.jsp");
-                request.setAttribute("msg", "Usuário deve se autenticar para acessar o sistema.");
-                rd.forward(request, response); 
-            %>
+            <jsp:forward page="index.jsp">
+                <jsp:param name="msg" value="Usuário deve se autenticar para acessar o sistema." />
+            </jsp:forward>
         </jsp:useBean>
         
         <nav class="navbar navbar-expand-sm bg-primary navbar-dark">
@@ -29,7 +28,7 @@
         </nav>
         
         <div class="container" id="client-form">
-            <form action="NovoClienteServlet" method="POST">
+            <form action="ClientesServlet?action=new" method="POST">
                 <div class="form-group row">
                     <label for="cpf" class="col-sm-2 col-form-label">CPF</label>
                     <div class="col-sm-10">

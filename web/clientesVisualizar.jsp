@@ -4,7 +4,9 @@
     Author     : ArtVin
 --%>
 
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@page import="com.ufpr.tads.web2.beans.Cliente"%>
+<%@page errorPage="erro.jsp"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -20,68 +22,67 @@
         </nav>
         
         <div class="container" id="client-form">
-            <% Cliente c = (Cliente) request.getAttribute("cliente"); %>
             
             <div class="form-group row">
                 <label for="cpf" class="col-sm-2 col-form-label">CPF</label>
                 <div class="col-sm-10">
-                    <input type="text" readonly class="form-control" value="<% out.println(c.getCpfCliente()); %>"/>
+                    <input type="text" readonly class="form-control" value="${cliente.cpfCliente}"/>
                 </div>
             </div>
                 
             <div class="form-group row">
                 <label for="cpf" class="col-sm-2 col-form-label">Nome</label>
                 <div class="col-sm-10">
-                    <input type="text" readonly class="form-control" value="<% out.println(c.getNomeCliente()); %>"/>
+                    <input type="text" readonly class="form-control" value="${cliente.nomeCliente}"/>
                 </div>
             </div>
                 
             <div class="form-group row">
                 <label for="cpf" class="col-sm-2 col-form-label">E-mail</label>
                 <div class="col-sm-10">
-                    <input type="text" readonly class="form-control" value="<% out.println(c.getEmailCliente()); %>"/>
+                    <input type="text" readonly class="form-control" value="${cliente.emailCliente}"/>
                 </div>
             </div>
                 
             <div class="form-group row">
                 <label for="cpf" class="col-sm-2 col-form-label">Data</label>
                 <div class="col-sm-10">
-                    <input type="text" readonly class="form-control" value="<% out.println(c.getDataCliente()); %>"/>
+                    <input type="text" readonly class="form-control" value="${cliente.dataCliente}"/>
                 </div>
             </div>
                 
             <div class="form-group row">
                 <label for="cpf" class="col-sm-2 col-form-label">Rua</label>
                 <div class="col-sm-10">
-                    <input type="text" readonly class="form-control" value="<% out.println(c.getRuaCliente()); %>"/>
+                    <input type="text" readonly class="form-control" value="${cliente.ruaCliente}"/>
                 </div>
             </div>
                 
             <div class="form-group row">
                 <label for="cpf" class="col-sm-2 col-form-label">Número</label>
                 <div class="col-sm-10">
-                    <input type="text" readonly class="form-control" value="<% out.println(c.getNrCliente()); %>"/>
+                    <input type="text" readonly class="form-control" value="${cliente.nrCliente}"/>
                 </div>
             </div>
                 
             <div class="form-group row">
                 <label for="cpf" class="col-sm-2 col-form-label">CEP</label>
                 <div class="col-sm-10">
-                    <input type="text" readonly class="form-control" value="<% out.println(c.getCepCliente()); %>"/>
+                    <input type="text" readonly class="form-control" value="${cliente.cepCliente}"/>
                 </div>
             </div>
                 
             <div class="form-group row">
                 <label for="cpf" class="col-sm-2 col-form-label">Cidade</label>
                 <div class="col-sm-10">
-                    <input type="text" readonly class="form-control" value="<% out.println(c.getCidadeCliente()); %>"/>
+                    <input type="text" readonly class="form-control" value="${cliente.cidadeCliente}"/>
                 </div>
             </div>
                 
             <div class="form-group row">
                 <label for="cpf" class="col-sm-2 col-form-label">UF</label>
                 <div class="col-sm-10">
-                    <input type="text" readonly class="form-control" value="<% out.println(c.getUfCliente()); %>"/>
+                    <input type="text" readonly class="form-control" value="${cliente.ufCliente}"/>
                 </div>
             </div>
 

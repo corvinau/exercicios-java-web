@@ -4,6 +4,8 @@
     Author     : ArtVin
 --%>
 
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@page errorPage="erro.jsp" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -15,16 +17,13 @@
     </head>
     <body>
         <jsp:useBean id="loginBean" class="com.ufpr.tads.web2.beans.LoginBean" scope="session">
-            <%   
-                RequestDispatcher rd = request.
-                getRequestDispatcher("index.jsp");
-                request.setAttribute("msg", "Usuário deve se autenticar para acessar o sistema.");
-                rd.forward(request, response); 
-            %>
+            <jsp:forward page="index.jsp">
+                <jsp:param name="msg" value="Usuário deve se autenticar para acessar o sistema." />
+            </jsp:forward>
         </jsp:useBean>
         
         <nav class="navbar navbar-expand-sm bg-primary navbar-dark">
-            <span class="navbar-brand"><jsp:getProperty name="loginBean" property="nome"/></span>
+            <span class="navbar-brand">${loginBean.nome}</span>
         </nav>
             
         <div class="container list-group" id="info">
@@ -37,9 +36,7 @@
     <footer class="footer">
         <div class="container">
             <span>
-                Em caso de problemas contatar o administrador :
-                <jsp:useBean id="configuracao" class="com.ufpr.tads.web2.beans.ConfigBean" scope="application"/>
-                <jsp:getProperty name="configuracao" property="email"/>
+                Em caso de problemas contatar o administrador : ${configuracao.email}
             </span>
         </div>
     </footer>

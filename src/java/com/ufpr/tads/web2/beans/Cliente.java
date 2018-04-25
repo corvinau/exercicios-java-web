@@ -6,7 +6,7 @@
 package com.ufpr.tads.web2.beans;
 
 //import java.util.Date;
-import java.sql.Date;
+import java.util.Date;
 
 /**
  *
@@ -104,8 +104,4 @@ public class Cliente {
         this.ufCliente = ufCliente;
     }
 
-    @Override
-    public String toString() {
-        return "Cliente{" + "id_cliente=" + idCliente + ", cpf_cliente=" + cpfCliente + ", nome_cliente=" + nomeCliente + '}';
-    }
 }

@@ -4,6 +4,8 @@
     Author     : ArtVin
 --%>
 
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@page errorPage="erro.jsp" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -15,37 +17,57 @@
         <title>Login</title>
     </head>
     <body>
-        <%
-            String msg = (String) request.getAttribute("msg");
+        <%--
+            String msg;
+            msg = (String) request.getAttribute("msg");
             if(msg != null){
                 %>
                 <div class="container alert alert-danger" role="alert" id="alert">
-                    <span><% out.print(msg); %></span>
+                    <span>${msg}</span>
                 </div>
                 <%
             }
-        %>
-        
-        <div class="container" id="login-form">
+            else{
+                msg = (String) request.getParameter("msg");
+                if(msg != null){
+                    %>
+                    <div class="container alert alert-danger" role="alert" id="alert">
+                        <span>${param.msg}</span>
+                    </div>
+                    <%
+                }
+            }
+        --%>
+
+        <c:choose>
+            <c:when test="${msg != null}">
+                <div class="container alert alert-danger" role="alert" id="alert">
+                    <span>${msg}</span>
+                </div>
+            </c:when>
+            <c:when test="${param.msg != null}">
+                <div class="container alert alert-danger" role="alert" id="alert">
+                    <span>${param.msg}</span>
+                </div>
+            </c:when>
+        </c:choose>       
+
+        <div id="login-form">
             <form action="LoginServlet" method="POST">
                 <div class="form-group">
-                    <!--<label for="login" class="col-form-label">Login</label>-->
                     <input type="text" class="form-control" name="login" value="" placeholder="Login"/>
                 </div>
                 <div class="form-group">
-                    <!--<label for="senha" class="col-form-label">Senha</label>-->
                     <input type="password" class="form-control" name="senha" value="" placeholder="Senha"/>
                 </div>
                 <input type="submit" class="btn btn-primary" value="Entrar"/>
             </form>
         </div>
-        
+
         <footer class="footer">
             <div class="container">
                 <span>
-                    Em caso de problemas contatar o administrador :
-                    <jsp:useBean id="configuracao" class="com.ufpr.tads.web2.beans.ConfigBean" scope="application"/>
-                    <jsp:getProperty name="configuracao" property="email"/> 
+                    Em caso de problemas contatar o administrador : ${configuracao.email}
                 </span>
             </div>
         </footer>

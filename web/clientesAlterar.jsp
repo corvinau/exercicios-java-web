@@ -4,7 +4,9 @@
     Author     : ArtVin
 --%>
 
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@page import="com.ufpr.tads.web2.beans.Cliente"%>
+<%@page errorPage="erro.jsp"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -16,12 +18,9 @@
     </head>
     <body>
         <jsp:useBean id="loginBean" class="com.ufpr.tads.web2.beans.LoginBean" scope="session">
-            <%   
-                RequestDispatcher rd = request.
-                getRequestDispatcher("index.jsp");
-                request.setAttribute("msg", "Usuário deve se autenticar para acessar o sistema.");
-                rd.forward(request, response); 
-            %>
+            <jsp:forward page="index.jsp">
+                <jsp:param name="msg" value="Usuário deve se autenticar para acessar o sistema." />
+            </jsp:forward>
         </jsp:useBean>
         
         <nav class="navbar navbar-expand-sm bg-primary navbar-dark">
@@ -29,66 +28,65 @@
         </nav>
         
         <div class="container" id="client-form">
-            <form action="AlterarClienteServlet" method="POST">
-                <% Cliente c = (Cliente) request.getAttribute("cliente");%>
+            <form action="ClientesServlet?action=update" method="POST">
                 <div class="form-group row hidden">
                     <div class="col-sm-10 hidden">
-                        <input type="hidden" name="idCliente" value=<%out.print("\""+c.getIdCliente()+"\""); %>/>
+                        <input type="hidden" name="idCliente" value="${cliente.idCliente}"/>
                     </div>
                 </div>
                 
                 <div class="form-group row">
                     <label for="cpf" class="col-sm-2 col-form-label">CPF</label>
                     <div class="col-sm-10">
-                        <input type="text" class="form-control" name="cpf" placeholder="CPF" value=<%out.print("\""+c.getCpfCliente()+"\""); %>/>
+                        <input type="text" class="form-control" name="cpf" placeholder="CPF" value="${cliente.cpfCliente}"/>
                     </div>
                 </div>
                 <div class="form-group row">
                     <label for="nome" class="col-sm-2 col-form-label">Nome</label>
                     <div class="col-sm-10">
-                        <input type="text" class="form-control" name="nome" placeholder="Nome" value=<%out.print("\""+c.getNomeCliente()+"\""); %>/>
+                        <input type="text" class="form-control" name="nome" placeholder="Nome" value="${cliente.nomeCliente}"/>
                     </div>
                 </div>
                 <div class="form-group row">
                     <label for="email" class="col-sm-2 col-form-label">E-mail</label>
                     <div class="col-sm-10">
-                        <input type="text" class="form-control" name="email" placeholder="E-mail" value=<%out.print("\""+c.getEmailCliente()+"\""); %>/>
+                        <input type="text" class="form-control" name="email" placeholder="E-mail" value="${cliente.emailCliente}"/>
                     </div>
                 </div>
                 <div class="form-group row">
                     <label for="data" class="col-sm-2 col-form-label">Data</label>
                     <div class="col-sm-10">
-                        <input type="date" class="form-control" name="data" value=<%out.print("\""+c.getDataCliente()+"\""); %>/>
+                        <input type="date" class="form-control" name="data" value="${cliente.dataCliente}"/>
                     </div>
                 </div>
                 <div class="form-group row">
                     <label for="rua" class="col-sm-2 col-form-label">Rua</label>
                     <div class="col-sm-10">
-                        <input type="text" class="form-control" name="rua" placeholder="Rua" value=<%out.print("\""+c.getRuaCliente()+"\""); %>/>
+                        <input type="text" class="form-control" name="rua" placeholder="Rua" value="${cliente.ruaCliente}"/>
                     </div>
                 </div>
                 <div class="form-group row">
                     <label for="numero" class="col-sm-2 col-form-label">Número</label>
                     <div class="col-sm-10">
-                        <input type="text" class="form-control" name="numero" placeholder="Nº" value=<%out.print("\""+c.getNrCliente()+"\""); %>/>
+                        <input type="text" class="form-control" name="numero" placeholder="Nº" value="${cliente.nrCliente}"/>
                     </div>
                 </div>
                 <div class="form-group row">
                     <label for="cep" class="col-sm-2 col-form-label">CEP</label>
                     <div class="col-sm-10">
-                        <input type="text" class="form-control" name="cep" placeholder="CEP" value=<%out.print("\""+c.getCepCliente()+"\""); %>/>
+                        <input type="text" class="form-control" name="cep" placeholder="CEP" value="${cliente.cepCliente}"/>
                     </div>
                 </div>
                 <div class="form-group row">
                     <label for="cidade" class="col-sm-2 col-form-label">Cidade</label>
                     <div class="col-sm-10">
-                        <input type="text" class="form-control" name="cidade" placeholder="Cidade" value=<%out.print("\""+c.getCidadeCliente()+"\""); %>/>
+                        <input type="text" class="form-control" name="cidade" placeholder="Cidade" value="${cliente.cidadeCliente}"/>
                     </div>
                 </div>
                 <div class="form-group row">
                     <label for="uf" class="col-sm-2 col-form-label">UF</label>
                     <div class="col-sm-10">
-                        <input type="text" class="form-control" name="uf" placeholder="UF" value=<%out.print("\""+c.getUfCliente()+"\""); %>/>
+                        <input type="text" class="form-control" name="uf" placeholder="UF" value="${cliente.ufCliente}"/>
                     </div>
                 </div>
                 <input class="btn btn-primary" id="new-client" type="submit" value="Alterar">

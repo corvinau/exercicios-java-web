@@ -6,7 +6,6 @@
 package com.ufpr.tads.web2.dao;
 
 import com.ufpr.tads.web2.beans.Cliente;
-import com.ufpr.tads.web2.beans.Usuario;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -56,7 +55,7 @@ public class ClienteDAO {
                 c.setCpfCliente(rs.getString("cpf_cliente"));
                 c.setNomeCliente(rs.getString("nome_cliente"));
                 c.setEmailCliente(rs.getString("email_cliente"));
-                c.setDataCliente(rs.getDate("data_cliente"));
+                c.setDataCliente(new java.util.Date(rs.getDate("data_cliente").getTime()));
                 c.setRuaCliente(rs.getString("rua_cliente"));
                 c.setNrCliente(rs.getInt("nr_cliente"));
                 c.setCepCliente(rs.getString("cep_cliente"));
@@ -142,7 +141,7 @@ public class ClienteDAO {
             st.setString(1, c.getCpfCliente());
             st.setString(2, c.getNomeCliente());
             st.setString(3, c.getEmailCliente());
-            st.setDate(4, c.getDataCliente());
+            st.setDate(4, new java.sql.Date(c.getDataCliente().getTime()));
             st.setString(5, c.getRuaCliente());
             st.setInt(6, c.getNrCliente());
             st.setString(7, c.getCepCliente());
@@ -170,7 +169,7 @@ public class ClienteDAO {
             st.setString(1, c.getCpfCliente());
             st.setString(2, c.getNomeCliente());
             st.setString(3, c.getEmailCliente());
-            st.setDate(4, c.getDataCliente());
+            st.setDate(4, new java.sql.Date(c.getDataCliente().getTime()));
             st.setString(5, c.getRuaCliente());
             st.setInt(6, c.getNrCliente());
             st.setString(7, c.getCepCliente());

@@ -7,38 +7,55 @@ package com.ufpr.tads.web2.facade;
 
 import com.ufpr.tads.web2.beans.Cliente;
 import com.ufpr.tads.web2.dao.ClienteDAO;
+import com.ufpr.tads.web2.exceptions.ClienteNaoExisteException;
+import com.ufpr.tads.web2.exceptions.ErroBuscandoClienteException;
+import com.ufpr.tads.web2.exceptions.ErroInserindoClienteException;
+import com.ufpr.tads.web2.exceptions.ErroRemovendoClienteException;
+import com.ufpr.tads.web2.exceptions.ErroUpdateClienteException;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
  * @author ArtVin
  */
 public class ClientesFacade {
-    public static void inserir(Cliente c){
+   public static String getErroInsertUpdate(String email){
         ClienteDAO clientes = new ClienteDAO();
-        clientes.insertCliente(c);
+        Cliente c;        
+        String str;
+        try {
+            c = clientes.getClienteEmail(email);
+            str = "E-mail invalido";
+        } catch (ClienteNaoExisteException ex) {
+            str = "CPF invalido";
+        }
+        return str;
     }
-    public static void alterar(Cliente c){
+    public static boolean inserir(Cliente c) throws ErroInserindoClienteException{
         ClienteDAO clientes = new ClienteDAO();
-        clientes.updateCliente(c);
+        return clientes.insertCliente(c);
     }
-    public static void remover(int id){
+    public static boolean alterar(Cliente c) throws ErroUpdateClienteException{
         ClienteDAO clientes = new ClienteDAO();
-        clientes.deleteCliente(id);
+        return clientes.updateCliente(c);
     }
-    public static Cliente buscar(int id){
+    public static boolean remover(int id) throws ErroRemovendoClienteException{
+        ClienteDAO clientes = new ClienteDAO();
+        return clientes.deleteCliente(id);
+    }
+    public static Cliente buscar(int id) throws ErroBuscandoClienteException{
         ClienteDAO clientes = new ClienteDAO();
         Cliente c = clientes.buscaCliente(id);
         
         return c;
     }
+    
     public static List<Cliente> buscarTodos(){
         ClienteDAO clientes = new ClienteDAO();
         List<Cliente> lista = clientes.buscaClientes();
         
         return lista;
     }
-   
-            
-
 }

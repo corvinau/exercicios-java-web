@@ -7,7 +7,7 @@ package com.ufpr.tads.web2.servlets;
 
 import com.ufpr.tads.web2.beans.LoginBean;
 import com.ufpr.tads.web2.beans.Usuario;
-import com.ufpr.tads.web2.dao.UsuarioDAO;
+import com.ufpr.tads.web2.facade.LoginFacade;
 import java.io.IOException;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -43,13 +43,13 @@ public class LoginServlet extends HttpServlet {
         String senha = (String) request.getParameter("senha");
 
         Usuario u = null;
-        UsuarioDAO dao = new UsuarioDAO();
-        u = dao.getUsuario(login, senha);
+        u = LoginFacade.login(login, senha);
         
 
         if (u != null) {
             LoginBean loginBean = new LoginBean();
             loginBean.setNome(u.getNomeUsuario());
+            loginBean.setId(u.getIdUsuario());
             session.setAttribute("loginBean", loginBean);
             RequestDispatcher rd = getServletContext().getRequestDispatcher("/portal.jsp");
             rd.forward(request, response);

@@ -16,11 +16,11 @@
         <title>Portal</title>
     </head>
     <body>
-        <jsp:useBean id="loginBean" class="com.ufpr.tads.web2.beans.LoginBean" scope="session">
+        <c:if test="${(empty loginBean)}">
             <jsp:forward page="index.jsp">
                 <jsp:param name="msg" value="Usuário deve se autenticar para acessar o sistema." />
             </jsp:forward>
-        </jsp:useBean>
+        </c:if>
         
         <nav class="navbar navbar-expand-sm bg-primary navbar-dark">
             <span class="navbar-brand">${loginBean.nome}</span>
@@ -28,6 +28,8 @@
             
         <div class="container list-group" id="info">
             <a href="ClientesServlet" class="list-group-item list-group-item-action">Cadastro de clientes</a>
+            <a href="AtendimentoServlet?action=newAtendimento" class="list-group-item list-group-item-action">Efetuar atendimento</a>
+            <a href="AtendimentoServlet?action=listaAtendimento" class="list-group-item list-group-item-action">Lista atendimento</a>    
             <a href="LogoutServlet" class="list-group-item list-group-item-action">Sair</a>
         </div>
         

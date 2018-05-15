@@ -13,6 +13,7 @@ import java.io.Serializable;
  */
 public class LoginBean implements Serializable{
     private String nome;
+    private int id;
     
     
     public String getNome() {
@@ -22,5 +23,14 @@ public class LoginBean implements Serializable{
     public void setNome(String nome) {
         this.nome = nome;
     }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+    
     
 }

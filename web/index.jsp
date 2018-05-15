@@ -17,28 +17,6 @@
         <title>Login</title>
     </head>
     <body>
-        <%--
-            String msg;
-            msg = (String) request.getAttribute("msg");
-            if(msg != null){
-                %>
-                <div class="container alert alert-danger" role="alert" id="alert">
-                    <span>${msg}</span>
-                </div>
-                <%
-            }
-            else{
-                msg = (String) request.getParameter("msg");
-                if(msg != null){
-                    %>
-                    <div class="container alert alert-danger" role="alert" id="alert">
-                        <span>${param.msg}</span>
-                    </div>
-                    <%
-                }
-            }
-        --%>
-
         <c:choose>
             <c:when test="${msg != null}">
                 <div class="container alert alert-danger" role="alert" id="alert">

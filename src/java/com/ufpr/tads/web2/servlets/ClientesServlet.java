@@ -7,6 +7,11 @@ package com.ufpr.tads.web2.servlets;
 
 import com.ufpr.tads.web2.beans.Cliente;
 import com.ufpr.tads.web2.beans.LoginBean;
+import com.ufpr.tads.web2.exceptions.ErroBuscandoClienteException;
+import com.ufpr.tads.web2.exceptions.ErroInserindoClienteException;
+import com.ufpr.tads.web2.exceptions.ErroRemovendoClienteException;
+import com.ufpr.tads.web2.exceptions.ErroUpdateClienteException;
+import com.ufpr.tads.web2.facade.CidadeEstadoFacade;
 import com.ufpr.tads.web2.facade.ClientesFacade;
 import java.io.IOException;
 import java.text.ParseException;
@@ -57,37 +62,83 @@ public class ClientesServlet extends HttpServlet {
         else{
             RequestDispatcher rd = null;
             int id;
+            Cliente c;
             if(action != null){
                 switch (action){
                     case "new":
-                        ClientesFacade.inserir(getClientePostData(request));
-                        request.setAttribute("redirecionar", "lista");
-                        rd = request.getRequestDispatcher("ClientesServlet");
+                        c = getClientePostData(request);
+                        try {
+                            if(ClientesFacade.inserir(c) == true){
+                                request.setAttribute("redirecionar", "lista");
+                                rd = request.getRequestDispatcher("ClientesServlet");
+                            }
+                            else{
+                                rd = request.getRequestDispatcher("portal.jsp");
+                            }
+                        } catch (ErroInserindoClienteException ex) {
+                            request.setAttribute("cliente", c);
+                            request.setAttribute("msg", ClientesFacade.getErroInsertUpdate(c.getEmailCliente()));
+                            rd = request.getRequestDispatcher("clientesForm.jsp");
+                            request.setAttribute("estados", CidadeEstadoFacade.getListaEstado());
+                        }
                         break;
                     case "formNew":
-                        rd = request.getRequestDispatcher("clientesNovo.jsp");
+                        request.setAttribute("estados", CidadeEstadoFacade.getListaEstado());
+                        rd = request.getRequestDispatcher("clientesForm.jsp");
                         break;
                     case "update" :
-                        ClientesFacade.alterar(getClientePostData(request));
-                        request.setAttribute("redirecionar", "lista");
-                        rd = request.getRequestDispatcher("ClientesServlet");
+                        c = getClientePostData(request);
+                        
+                        try {
+                            if(ClientesFacade.alterar(c) == true){
+                                request.setAttribute("redirecionar", "lista");
+                                rd = request.getRequestDispatcher("ClientesServlet");
+                            }
+                            else{
+                                rd = request.getRequestDispatcher("portal.jsp");
+                            }
+                        } catch (ErroUpdateClienteException ex) {
+                            request.setAttribute("cliente", c);
+                            request.setAttribute("msg", ClientesFacade.getErroInsertUpdate(c.getEmailCliente()));
+                            rd = request.getRequestDispatcher("clientesForm.jsp");
+                            request.setAttribute("estados", CidadeEstadoFacade.getListaEstado());
+                        }
                         break;
                     case "remove" :
                         id = Integer.parseInt(request.getParameter("id"));
-                        ClientesFacade.remover(id);
-                        request.setAttribute("redirecionar", "lista");
-                        rd = request.getRequestDispatcher("ClientesServlet");
-                        
+
+                        try{
+                            ClientesFacade.remover(id);
+                            request.setAttribute("redirecionar", "lista");
+                            rd = request.getRequestDispatcher("ClientesServlet");
+                        } catch (ErroRemovendoClienteException ex){
+                            request.setAttribute("msg", "Erro ao remover o cliente");
+                            request.setAttribute("redirecionar", "lista");
+                            rd = request.getRequestDispatcher("ClientesServlet");
+                        }
                         break;
                     case "formUpdate" :
                         id = Integer.parseInt(request.getParameter("id"));
-                        rd = request.getRequestDispatcher("clientesAlterar.jsp");
-                        request.setAttribute("cliente", ClientesFacade.buscar(id));
+                        try{
+                            rd = request.getRequestDispatcher("clientesForm.jsp");
+                            request.setAttribute("cliente", ClientesFacade.buscar(id));
+                            request.setAttribute("estados", CidadeEstadoFacade.getListaEstado());
+                        } catch (ErroBuscandoClienteException ex){
+                            request.setAttribute("msg", "Cliente não encontrado");
+                            request.setAttribute("redirecionar", "lista");
+                            rd = request.getRequestDispatcher("ClientesServlet");
+                        }
                         break;
                     case "show" :
                         id = Integer.parseInt(request.getParameter("id"));
-                        rd = request.getRequestDispatcher("clientesVisualizar.jsp");
-                        request.setAttribute("cliente", ClientesFacade.buscar(id));
+                        try{
+                            rd = request.getRequestDispatcher("clientesVisualizar.jsp");
+                            request.setAttribute("cliente", ClientesFacade.buscar(id));
+                        } catch (ErroBuscandoClienteException ex){
+                            request.setAttribute("msg", "Cliente não encontrado");
+                            request.setAttribute("redirecionar", "lista");
+                            rd = request.getRequestDispatcher("ClientesServlet");
+                        }
                         break;
                     default :
                         rd = request.getRequestDispatcher("clientesListar.jsp");
@@ -108,23 +159,28 @@ public class ClientesServlet extends HttpServlet {
     private Cliente getClientePostData(HttpServletRequest request){
         Cliente c = new Cliente();
         String aux = request.getParameter("idCliente");
-        if(aux != null){
+        c.setCpfCliente(null);
+        if(aux != null  ){
             c.setIdCliente(Integer.parseInt(aux));
         }
-        c.setCpfCliente((String) request.getParameter("cpf"));
+        String cpf = (String) request.getParameter("cpf");
+        cpf = cpf.replace(".","");
+        cpf = cpf.replace("-","");
+        if(c.validaCPF(cpf)){
+            c.setCpfCliente( cpf);
+        }
         c.setNomeCliente((String) request.getParameter("nome"));
         c.setEmailCliente((String) request.getParameter("email"));
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy");
         try {
-            c.setDataCliente(format.parse(request.getParameter("data")));
+            c.setDataCliente(format.parse((String) request.getParameter("data").replace("/", "-")));
         } catch (ParseException ex) {
             Logger.getLogger(ClientesServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
         c.setRuaCliente((String) request.getParameter("rua"));
         c.setNrCliente(Integer.parseInt(request.getParameter("numero")));
-        c.setCepCliente((String) request.getParameter("cep"));
-        c.setCidadeCliente((String) request.getParameter("cidade"));
-        c.setUfCliente((String) request.getParameter("uf"));
+        c.setCepCliente((String) request.getParameter("cep").replace("-", ""));
+        c.setCidadeCliente(CidadeEstadoFacade.getCidade(Integer.parseInt(request.getParameter("cidade"))));
                     
         return c;
     }

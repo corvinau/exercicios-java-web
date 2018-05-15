@@ -5,24 +5,25 @@
  */
 package com.ufpr.tads.web2.servlets;
 
-import com.ufpr.tads.web2.beans.Cliente;
-import com.ufpr.tads.web2.beans.LoginBean;
-import com.ufpr.tads.web2.dao.ClienteDAO;
+import com.google.gson.Gson;
+import com.ufpr.tads.web2.beans.Cidade;
+import com.ufpr.tads.web2.facade.CidadeEstadoFacade;
 import java.io.IOException;
-import javax.servlet.RequestDispatcher;
+import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 /**
  *
  * @author ArtVin
  */
-@WebServlet(name = "VisualizarClienteServlet", urlPatterns = {"/VisualizarClienteServlet"})
-public class VisualizarClienteServlet extends HttpServlet {
+@WebServlet(name = "AJAXServlet", urlPatterns = {"/AJAXServlet"})
+public class AJAXServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -33,29 +34,26 @@ public class VisualizarClienteServlet extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+        protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        HttpSession session = request.getSession(false);
-        //if session null
-        LoginBean login = (LoginBean) session.getAttribute("loginBean");
+
+        String estado = request.getParameter("estadoId");
         
-        if(login == null || login.getNome() == null){
-            RequestDispatcher rd = request.
-            getRequestDispatcher("index.jsp");
-            session.invalidate();
-            request.setAttribute("msg", "Usuário deve se autenticar para acessar o sistema.");
-            rd.forward(request, response);
+        // Vai no BD buscar todas as cidades deste estado, em uma lista
+        int idEstado = Integer.parseInt(estado);
+        
+        List<Cidade> lista = CidadeEstadoFacade.getListaCidade(idEstado);
+        
+        // transforma o MAP em JSON
+        String json = new Gson().toJson(lista);   
+
+        // retorna o JSON
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+        response.getWriter().write(json);
         }
-        else{
-            ClienteDAO clientes = new ClienteDAO();
-            Cliente c = clientes.buscaCliente(Integer.parseInt(request.getParameter("id")));
-            
-            RequestDispatcher rd = request.
-            getRequestDispatcher("clientesVisualizar.jsp");
-            request.setAttribute("cliente", c);
-            rd.forward(request, response);
-        }
-    }
+    
+
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**

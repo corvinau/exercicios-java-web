@@ -21,8 +21,7 @@ public class Cliente {
     private String ruaCliente;
     private int nrCliente;
     private String cepCliente;
-    private String cidadeCliente;
-    private String ufCliente;
+    private Cidade cidadeCliente;
 
     public int getIdCliente() {
         return idCliente;
@@ -88,20 +87,31 @@ public class Cliente {
         this.cepCliente = cepCliente;
     }
 
-    public String getCidadeCliente() {
+    public Cidade getCidadeCliente() {
         return cidadeCliente;
     }
 
-    public void setCidadeCliente(String cidadeCliente) {
+    public void setCidadeCliente(Cidade cidadeCliente) {
         this.cidadeCliente = cidadeCliente;
     }
 
-    public String getUfCliente() {
-        return ufCliente;
+    public boolean validaCPF(String cpf){
+      if ((cpf==null) || (cpf.length()!=11)) return false;
+      
+      int[] pesoCPF = {11, 10, 9, 8, 7, 6, 5, 4, 3, 2};
+      
+      Integer digito1 = calcularDigito(cpf.substring(0,9), pesoCPF);
+      Integer digito2 = calcularDigito(cpf.substring(0,9) + digito1, pesoCPF);
+      return cpf.equals(cpf.substring(0,9) + digito1.toString() + digito2.toString());  
     }
-
-    public void setUfCliente(String ufCliente) {
-        this.ufCliente = ufCliente;
-    }
+    private int calcularDigito(String str, int[] peso) {
+      int soma = 0;
+      for (int indice=str.length()-1, digito; indice >= 0; indice-- ) {
+         digito = Integer.parseInt(str.substring(indice,indice+1));
+         soma += digito*peso[peso.length-str.length()+indice];
+      }
+      soma = 11 - soma % 11;
+      return soma > 9 ? 0 : soma;
+   }
 
 }

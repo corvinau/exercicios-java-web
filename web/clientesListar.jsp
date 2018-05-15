@@ -17,13 +17,29 @@
         <link rel="stylesheet" href="css/main.css"/>
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
         <title>Listar Clientes</title>
+        
+        <script>
+            function funcao1(href)
+            {
+            var x;
+            var r=window.confirm("Deseja realmente excuir o cliente?");
+            if (r==true)
+              {
+              window.location.href = href;
+              }
+            else
+              {
+              x="Você pressionou Cancelar!";
+              }
+            }
+            </script>
     </head>
     <body>
-        <jsp:useBean id="loginBean" class="com.ufpr.tads.web2.beans.LoginBean" scope="session">
+        <c:if test="${(empty loginBean)}">
             <jsp:forward page="index.jsp">
                 <jsp:param name="msg" value="Usuário deve se autenticar para acessar o sistema." />
             </jsp:forward>
-        </jsp:useBean>
+        </c:if>
 
         <nav class="navbar navbar-expand-sm bg-primary navbar-dark">
             <span class="navbar-brand">${loginBean.nome}</span>
@@ -52,7 +68,7 @@
                                 <a href="ClientesServlet?action=formUpdate&id=${cliente.idCliente}">
                                     <i class="material-icons">edit</i> 
                                 </a>
-                                <a href="ClientesServlet?action=remove&id=${cliente.idCliente}">
+                                <a href="#" onclick="funcao1('ClientesServlet?action=remove&id=${cliente.idCliente}')">
                                     <i class="material-icons">delete</i> 
                                 </a>
                             </td>

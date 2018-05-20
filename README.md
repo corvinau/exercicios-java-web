@@ -10,4 +10,4 @@ Mostrar a aplicação de padrões de projeto (MVC, DAO, Façade) para uma aplica
 
 Para o banco funcionar rodar os sql's na seguinte ordem: web2exercicioCreate.sql, web2exercicioInsertEstados.sql, web2exercicioInsertCidades.sql, web2exercicioInsertUserCliente.sql
 
-**Devs:** Arthur Vianna Landeo (ArthurVianna) e Tatiane Portela Medeiros (corvinau).
+**Devs:** Arthur Vianna Landeo ([ArthurVianna](https://github.com/ArthurVianna)) e Tatiane Portela Medeiros ([corvinau](https://github.com/corvinau)).

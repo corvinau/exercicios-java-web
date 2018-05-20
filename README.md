@@ -1,4 +1,4 @@
-# exerciciosWeb2
+# Projeto em Java Web
 
 Pequeno projeto desenvolvido nas aulas de Desenvolvimento de Aplicações para WEB II, do curso de Tecnologia em Análise e Desenvolvimento de Sistemas - UFPR.
 

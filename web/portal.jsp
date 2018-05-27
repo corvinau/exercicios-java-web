@@ -29,7 +29,8 @@
         <div class="container list-group" id="info">
             <a href="ClientesServlet" class="list-group-item list-group-item-action">Cadastro de clientes</a>
             <a href="AtendimentoServlet?action=newAtendimento" class="list-group-item list-group-item-action">Efetuar atendimento</a>
-            <a href="AtendimentoServlet?action=listaAtendimento" class="list-group-item list-group-item-action">Lista atendimento</a>    
+            <a href="AtendimentoServlet?action=listaAtendimento" class="list-group-item list-group-item-action">Lista atendimento</a>
+            <a href="relatorios.jsp" class="list-group-item list-group-item-action">Relatórios</a>
             <a href="LogoutServlet" class="list-group-item list-group-item-action">Sair</a>
         </div>
         

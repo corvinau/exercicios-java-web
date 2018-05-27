@@ -32,7 +32,7 @@
               x="Você pressionou Cancelar!";
               }
             }
-            </script>
+        </script>
     </head>
     <body>
         <c:if test="${(empty loginBean)}">
